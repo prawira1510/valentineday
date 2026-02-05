@@ -52,45 +52,18 @@ function initThemeToggle() {
 
 // Navigation
 function initNavigation() {
-    const navLinks = document.querySelectorAll('.nav-menu a');
+    const navLinks = document.querySelectorAll('.nav-menu .nav-link');
     
     navLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-            // Remove active class from all links
-            navLinks.forEach(item => item.classList.remove('active'));
+        link.addEventListener('click', function() {
+            // Close navbar on mobile after click
+            const navbarToggler = document.querySelector('.navbar-toggler');
+            const navbarCollapse = document.querySelector('.navbar-collapse');
             
-            // Add active class to clicked link
-            this.classList.add('active');
+            if (navbarToggler && !navbarToggler.classList.contains('collapsed')) {
+                navbarToggler.click();
+            }
         });
-    });
-    
-    // Set active link based on scroll position
-    window.addEventListener('scroll', setActiveNavLink);
-    
-    // Initial call
-    setActiveNavLink();
-}
-
-function setActiveNavLink() {
-    const sections = document.querySelectorAll('section');
-    const navLinks = document.querySelectorAll('.nav-menu a');
-    
-    let current = '';
-    
-    sections.forEach(section => {
-        const sectionTop = section.offsetTop;
-        const sectionHeight = section.clientHeight;
-        
-        if (pageYOffset >= sectionTop - 200) {
-            current = section.getAttribute('id');
-        }
-    });
-    
-    navLinks.forEach(link => {
-        link.classList.remove('active');
-        if (link.getAttribute('href') === `#${current}`) {
-            link.classList.add('active');
-        }
     });
 }
 
@@ -122,28 +95,11 @@ function initHeartsBackground() {
 
 // Modal Functions
 function initModal() {
-    const modal = document.getElementById('loveMessageModal');
-    if (!modal) return;
-    
-    const closeModal = document.querySelector('.close-modal');
     const newMessageBtn = document.getElementById('newMessageBtn');
-    
-    if (closeModal) {
-        closeModal.addEventListener('click', () => {
-            modal.style.display = 'none';
-        });
-    }
     
     if (newMessageBtn) {
         newMessageBtn.addEventListener('click', showRandomLoveMessage);
     }
-    
-    // Close modal when clicking outside
-    window.addEventListener('click', (e) => {
-        if (e.target === modal) {
-            modal.style.display = 'none';
-        }
-    });
 }
 
 // Show random love message in modal
@@ -171,7 +127,10 @@ function showRandomLoveMessage() {
     
     if (messageElement) {
         messageElement.textContent = messages[randomIndex];
-        document.getElementById('loveMessageModal').style.display = 'flex';
+        
+        // Show modal using Bootstrap
+        const modal = new bootstrap.Modal(document.getElementById('loveMessageModal'));
+        modal.show();
     }
 }
 
@@ -179,13 +138,12 @@ function showRandomLoveMessage() {
 function initSmoothScroll() {
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
-            e.preventDefault();
-            
             const targetId = this.getAttribute('href');
             if (targetId === '#') return;
             
             const targetElement = document.querySelector(targetId);
             if (targetElement) {
+                e.preventDefault();
                 window.scrollTo({
                     top: targetElement.offsetTop - 80,
                     behavior: 'smooth'
@@ -199,41 +157,15 @@ function initSmoothScroll() {
 function showNotification(message, type = 'info') {
     // Create notification element
     const notification = document.createElement('div');
-    notification.className = `notification ${type}`;
+    notification.className = `alert alert-${type === 'success' ? 'success' : type === 'error' ? 'danger' : 'info'} position-fixed top-0 end-0 m-3`;
+    notification.style.zIndex = '3000';
+    notification.style.minWidth = '300px';
     notification.innerHTML = `
-        <span>${message}</span>
-        <button class="close-notification">&times;</button>
+        <div class="d-flex justify-content-between align-items-center">
+            <span>${message}</span>
+            <button type="button" class="btn-close" onclick="this.parentElement.parentElement.remove()"></button>
+        </div>
     `;
-    
-    // Style the notification
-    notification.style.cssText = `
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        background-color: ${type === 'success' ? '#4CAF50' : type === 'error' ? '#F44336' : '#2196F3'};
-        color: white;
-        padding: 15px 20px;
-        border-radius: 8px;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        z-index: 3000;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        min-width: 300px;
-        max-width: 400px;
-        animation: slideIn 0.3s ease-out;
-    `;
-    
-    // Add close button functionality
-    const closeBtn = notification.querySelector('.close-notification');
-    closeBtn.addEventListener('click', () => {
-        notification.style.animation = 'slideOut 0.3s ease-out';
-        setTimeout(() => {
-            if (notification.parentNode) {
-                notification.parentNode.removeChild(notification);
-            }
-        }, 300);
-    });
     
     // Add to DOM
     document.body.appendChild(notification);
@@ -241,48 +173,9 @@ function showNotification(message, type = 'info') {
     // Auto-remove after 5 seconds
     setTimeout(() => {
         if (notification.parentNode) {
-            notification.style.animation = 'slideOut 0.3s ease-out';
-            setTimeout(() => {
-                if (notification.parentNode) {
-                    notification.parentNode.removeChild(notification);
-                }
-            }, 300);
+            notification.remove();
         }
     }, 5000);
-    
-    // Add CSS animations
-    if (!document.querySelector('#notification-styles')) {
-        const style = document.createElement('style');
-        style.id = 'notification-styles';
-        style.textContent = `
-            @keyframes slideIn {
-                from { transform: translateX(100%); opacity: 0; }
-                to { transform: translateX(0); opacity: 1; }
-            }
-            @keyframes slideOut {
-                from { transform: translateX(0); opacity: 1; }
-                to { transform: translateX(100%); opacity: 0; }
-            }
-            .close-notification {
-                background: none;
-                border: none;
-                color: white;
-                font-size: 20px;
-                cursor: pointer;
-                margin-left: 15px;
-                padding: 0;
-                width: 20px;
-                height: 20px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-            .close-notification:hover {
-                opacity: 0.8;
-            }
-        `;
-        document.head.appendChild(style);
-    }
 }
 
 // Heart rain effect
@@ -335,24 +228,6 @@ function createHeartRain(count = 30) {
     }
 }
 
-// Form validation helper
-function validateForm(inputs) {
-    let isValid = true;
-    let message = '';
-    
-    inputs.forEach(input => {
-        if (!input.value.trim()) {
-            isValid = false;
-            input.style.borderColor = '#F44336';
-            message = 'Harap isi semua bidang yang diperlukan.';
-        } else {
-            input.style.borderColor = '#4CAF50';
-        }
-    });
-    
-    return { isValid, message };
-}
-
 // Utility function to format date
 function formatDate(date) {
     const options = { 
@@ -366,12 +241,5 @@ function formatDate(date) {
     return date.toLocaleDateString('id-ID', options);
 }
 
-// Error handling for all functions
-window.addEventListener('error', function(e) {
-    console.error('Error occurred:', e.error);
-    showNotification('Terjadi kesalahan. Silakan refresh halaman.', 'error');
-});
-
 // Make functions globally available for other scripts
 window.showNotification = showNotification;
-window.validateForm = validateForm;

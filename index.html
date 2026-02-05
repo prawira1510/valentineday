@@ -4,49 +4,73 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Happy Valentine's Day ❤️</title>
-     <!-- FAVICON PT CIO (AMAN SEMUA BROWSER) -->
-    <link rel="icon" href="img/logo TID.png" type="image/png">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- FAVICON -->
+    <link rel="icon" href="img/icon valentine.png" type="image/png">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/x-icon" href="images/valentine-icon.png">
 </head>
 <body>
     <!-- Background Hearts Animation -->
     <div class="hearts-background"></div>
     
     <!-- Navigation -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="#" class="logo">Valentine<span>Day</span></a>
-            <ul class="nav-menu">
-                <li><a href="#home"><i class="fas fa-home"></i> Home</a></li>
-                <li><a href="#countdown"><i class="fas fa-clock"></i> Countdown</a></li>
-                <li><a href="#gallery"><i class="fas fa-images"></i> Gallery</a></li>
-                <li><a href="#calculator"><i class="fas fa-heart"></i> Love Calculator</a></li>
-                <li><a href="#messages"><i class="fas fa-envelope"></i> Love Messages</a></li>
-                <li><a href="#music"><i class="fas fa-music"></i> Music</a></li>
-            </ul>
-            <button class="theme-toggle" id="themeToggle">
-                <i class="fas fa-moon"></i>
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <div class="container">
+            <a href="#" class="navbar-brand logo">Valentine<span>Day</span></a>
+            <button class="navbar-toggler theme-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <i class="fas fa-bars"></i>
             </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto nav-menu">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#home"><i class="fas fa-home"></i> Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#countdown"><i class="fas fa-clock"></i> Countdown</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#gallery"><i class="fas fa-images"></i> Gallery</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#calculator"><i class="fas fa-heart"></i> Love Calculator</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#messages"><i class="fas fa-envelope"></i> Love Messages</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#music"><i class="fas fa-music"></i> Music</a>
+                    </li>
+                </ul>
+                <button class="btn theme-toggle ms-3" id="themeToggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
         </div>
     </nav>
 
     <!-- Main Content -->
-    <main>
+    <main class="container-fluid p-0">
         <!-- Hero Section -->
-        <section id="home" class="hero">
-            <div class="hero-content">
-                <h1 class="hero-title">Happy Valentine's Day</h1>
-                <p class="hero-subtitle">Cintamu membuat hidupku penuh warna dan kebahagiaan. Selamat merayakan hari kasih sayang!</p>
-                <div class="hero-buttons">
-                    <button class="btn-primary" id="showLoveMessage">
-                        <i class="fas fa-heart"></i> Kirim Pesan Cinta
-                    </button>
-                    <button class="btn-secondary" id="playRomanticMusic">
-                        <i class="fas fa-music"></i> Putar Musik Romantis
-                    </button>
+        <section id="home" class="hero py-5 py-lg-6">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8 text-center">
+                        <h1 class="hero-title display-4 fw-bold mb-4">Happy Valentine's Day</h1>
+                        <p class="hero-subtitle lead mb-5">Cintamu membuat hidupku penuh warna dan kebahagiaan. Selamat merayakan hari kasih sayang!</p>
+                        <div class="hero-buttons d-flex flex-wrap justify-content-center gap-3">
+                            <button class="btn btn-primary btn-lg" id="showLoveMessage">
+                                <i class="fas fa-heart"></i> Kirim Pesan Cinta
+                            </button>
+                            <button class="btn btn-outline-light btn-lg" id="playRomanticMusic">
+                                <i class="fas fa-music"></i> Putar Musik Romantis
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="heart-animation">
@@ -59,221 +83,313 @@
         </section>
 
         <!-- Countdown Timer -->
-        <section id="countdown" class="countdown-section">
-            <h2 class="section-title">Countdown to Valentine's Day</h2>
-            <div class="countdown-container">
-                <div class="countdown-box">
-                    <div class="countdown-value" id="days">00</div>
-                    <div class="countdown-label">Hari</div>
-                </div>
-                <div class="countdown-box">
-                    <div class="countdown-value" id="hours">00</div>
-                    <div class="countdown-label">Jam</div>
-                </div>
-                <div class="countdown-box">
-                    <div class="countdown-value" id="minutes">00</div>
-                    <div class="countdown-label">Menit</div>
-                </div>
-                <div class="countdown-box">
-                    <div class="countdown-value" id="seconds">00</div>
-                    <div class="countdown-label">Detik</div>
+        <section id="countdown" class="py-5">
+            <div class="container">
+                <h2 class="section-title text-center mb-4">Countdown to Valentine's Day</h2>
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="countdown-container row g-3 g-md-4 text-center">
+                            <div class="col-6 col-md-3">
+                                <div class="countdown-box p-3 p-md-4">
+                                    <div class="countdown-value display-4 fw-bold" id="days">00</div>
+                                    <div class="countdown-label mt-2">Hari</div>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <div class="countdown-box p-3 p-md-4">
+                                    <div class="countdown-value display-4 fw-bold" id="hours">00</div>
+                                    <div class="countdown-label mt-2">Jam</div>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <div class="countdown-box p-3 p-md-4">
+                                    <div class="countdown-value display-4 fw-bold" id="minutes">00</div>
+                                    <div class="countdown-label mt-2">Menit</div>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <div class="countdown-box p-3 p-md-4">
+                                    <div class="countdown-value display-4 fw-bold" id="seconds">00</div>
+                                    <div class="countdown-label mt-2">Detik</div>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="countdown-text text-center mt-4 h5">Sampai Valentine's Day berikutnya!</p>
+                    </div>
                 </div>
             </div>
-            <p class="countdown-text">Sampai Valentine's Day berikutnya!</p>
         </section>
 
         <!-- Love Gallery -->
-        <section id="gallery" class="gallery-section">
-            <h2 class="section-title">Galeri Cinta</h2>
-            <p class="section-subtitle">Bagikan momen indah Anda bersama pasangan</p>
-            <div class="gallery-container">
-                <div class="gallery-item">
-                    <img src="img/Together Forever.png" alt="Couple 1">
-                    <div class="gallery-overlay">
-                        <h3>Together Forever</h3>
-                        <p>Cinta sejati tak kenal waktu dan jarak</p>
+        <section id="gallery" class="py-5">
+            <div class="container">
+                <h2 class="section-title text-center mb-3">Galeri Cinta</h2>
+                <p class="section-subtitle text-center mb-5">Bagikan momen indah Anda bersama pasangan</p>
+                
+                <div class="gallery-container row g-4">
+                    <div class="col-md-4">
+                        <div class="gallery-item h-100">
+                            <img src="img/Together Forever.png" alt="Couple 1" class="img-fluid">
+                            <div class="gallery-overlay">
+                                <h3>Together Forever</h3>
+                                <p>Cinta sejati tak kenal waktu dan jarak</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="gallery-item h-100">
+                            <img src="img/Romantic Dinner.jpg" alt="Couple 2" class="img-fluid">
+                            <div class="gallery-overlay">
+                                <h3>Romantic Dinner</h3>
+                                <p>Makan malam romantis di bawah cahaya lilin</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="gallery-item h-100">
+                            <img src="img/Beach Sunset.jpg" alt="Couple 3" class="img-fluid">
+                            <div class="gallery-overlay">
+                                <h3>Beach Sunset</h3>
+                                <p>Menikmati matahari terbenam bersama</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="gallery-item">
-                    <img src="img/Romantic Dinner.jpg" alt="Couple 2">
-                    <div class="gallery-overlay">
-                        <h3>Romantic Dinner</h3>
-                        <p>Makan malam romantis di bawah cahaya lilin</p>
+                
+                <div class="upload-section mt-5 p-4">
+                    <h3 class="text-center mb-4">Bagikan Foto Anda</h3>
+                    <div class="row justify-content-center">
+                        <div class="col-lg-6">
+                            <input type="file" class="form-control mb-3" id="photoUpload" accept="image/*">
+                            <button class="btn btn-primary w-100" id="uploadBtn">
+                                <i class="fas fa-upload"></i> Unggah Foto
+                            </button>
+                            <div id="uploadStatus" class="mt-3"></div>
+                        </div>
                     </div>
                 </div>
-                <div class="gallery-item">
-                    <img src="img/Beach Sunset.jpg" alt="Couple 3">
-                    <div class="gallery-overlay">
-                        <h3>Beach Sunset</h3>
-                        <p>Menikmati matahari terbenam bersama</p>
-                    </div>
-                </div>
-            </div>
-            <div class="upload-section">
-                <h3>Bagikan Foto Anda</h3>
-                <input type="file" id="photoUpload" accept="image/*">
-                <button class="btn-primary" id="uploadBtn">
-                    <i class="fas fa-upload"></i> Unggah Foto
-                </button>
-                <div id="uploadStatus"></div>
             </div>
         </section>
 
-        <!-- Love Calculator -->
-        <section id="calculator" class="calculator-section">
-            <h2 class="section-title">Kalkulator Cinta</h2>
-            <p class="section-subtitle">Cek seberapa cocok Anda dengan pasangan</p>
-            <div class="calculator-container">
-                <div class="input-group">
-                    <label for="name1"><i class="fas fa-user"></i> Nama Anda</label>
-                    <input type="text" id="name1" placeholder="Masukkan nama Anda">
+        <!-- Love Calculator Section -->
+        <section id="calculator" class="py-5">
+            <div class="container">
+                <div class="calculator-header">
+                    <h2 class="section-title display-4 fw-bold mb-3">Kalkulator Cinta</h2>
+                    <p class="section-subtitle h5">Cek seberapa cocok Anda dengan pasangan 💖</p>
                 </div>
-                <div class="input-group">
-                    <label for="name2"><i class="fas fa-user-heart"></i> Nama Pasangan</label>
-                    <input type="text" id="name2" placeholder="Masukkan nama pasangan">
-                </div>
-                <button class="btn-primary" id="calculateLove">
-                    <i class="fas fa-heartbeat"></i> Hitung Kecocokan
-                </button>
-                <div class="result-container">
-                    <div class="love-percentage" id="lovePercentage">0%</div>
-                    <div class="love-message" id="loveMessage"></div>
-                    <div class="love-description" id="loveDescription"></div>
+                
+                <div class="calculator-container">
+                    <div class="input-container">
+                        <div class="input-group-wrapper">
+                            <div class="input-wrapper">
+                                <label for="name1"><i class="fas fa-user"></i> Nama Anda</label>
+                                <input type="text" id="name1" placeholder="Masukkan nama lengkap Anda" class="form-control-lg">
+                                <div class="invalid-feedback">Nama harus minimal 2 karakter</div>
+                            </div>
+                            
+                            <div class="heart-connector">
+                                <i class="fas fa-heart"></i>
+                            </div>
+                            
+                            <div class="input-wrapper">
+                                <label for="name2"><i class="fas fa-user-heart"></i> Nama Pasangan</label>
+                                <input type="text" id="name2" placeholder="Masukkan nama lengkap pasangan" class="form-control-lg">
+                                <div class="invalid-feedback">Nama harus minimal 2 karakter</div>
+                            </div>
+                        </div>
+                        
+                        <div class="calculate-button-wrapper">
+                            <button class="btn btn-lg" id="calculateLove">
+                                <i class="fas fa-heartbeat"></i> Hitung Kecocokan Cinta
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="result-container">
+                        <div class="result-content">
+                            <div class="love-percentage" id="lovePercentage">0%</div>
+                            <div class="love-message h2 mb-3" id="loveMessage"></div>
+                            <div class="love-description mb-4" id="loveDescription"></div>
+                            
+                            <div class="result-animation">
+                                <div class="hearts-animation">
+                                    <!-- Hearts will appear here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4 text-center">
+                        <p class="text-muted">
+                            <small><i class="fas fa-info-circle"></i> Perhitungan ini berdasarkan algoritma cinta yang penuh kebahagiaan! 💝</small>
+                        </p>
+                    </div>
                 </div>
             </div>
         </section>
 
         <!-- Love Messages -->
-        <section id="messages" class="messages-section">
-            <h2 class="section-title">Pesan Cinta</h2>
-            <p class="section-subtitle">Kirim pesan cinta untuk orang tersayang</p>
-            <div class="messages-container">
-                <div class="message-form">
-                    <div class="input-group">
-                        <label for="senderName"><i class="fas fa-user"></i> Nama Anda</label>
-                        <input type="text" id="senderName" placeholder="Nama Anda">
+        <section id="messages" class="py-5">
+            <div class="container">
+                <h2 class="section-title text-center mb-3">Pesan Cinta</h2>
+                <p class="section-subtitle text-center mb-5">Kirim pesan cinta untuk orang tersayang</p>
+                
+                <div class="messages-container row g-4">
+                    <div class="col-lg-6">
+                        <div class="message-form p-4 h-100">
+                            <div class="mb-3">
+                                <label for="senderName" class="form-label"><i class="fas fa-user"></i> Nama Anda</label>
+                                <input type="text" class="form-control" id="senderName" placeholder="Nama Anda">
+                            </div>
+                            <div class="mb-3">
+                                <label for="recipientName" class="form-label"><i class="fas fa-heart"></i> Nama Penerima</label>
+                                <input type="text" class="form-control" id="recipientName" placeholder="Nama pasangan">
+                            </div>
+                            <div class="mb-3">
+                                <label for="messageText" class="form-label"><i class="fas fa-envelope"></i> Pesan Cinta</label>
+                                <textarea class="form-control" id="messageText" rows="5" placeholder="Tulis pesan cinta Anda di sini..."></textarea>
+                            </div>
+                            <button class="btn btn-primary w-100" id="sendMessage">
+                                <i class="fas fa-paper-plane"></i> Kirim Pesan
+                            </button>
+                        </div>
                     </div>
-                    <div class="input-group">
-                        <label for="recipientName"><i class="fas fa-heart"></i> Nama Penerima</label>
-                        <input type="text" id="recipientName" placeholder="Nama pasangan">
-                    </div>
-                    <div class="input-group">
-                        <label for="messageText"><i class="fas fa-envelope"></i> Pesan Cinta untuk keluarga atau pasangan kamu</label>
-                        <textarea id="messageText" rows="5" placeholder="Tulis pesan cinta Anda di sini..."></textarea>
-                    </div>
-                    <button class="btn-primary" id="sendMessage">
-                        <i class="fas fa-paper-plane"></i> Kirim Pesan
-                    </button>
-                </div>
-                <div class="message-display">
-                    <h3><i class="fas fa-inbox"></i> Kotak Pesan</h3>
-                    <div class="messages-list" id="messagesList">
-                        <!-- Pesan akan dimuat di sini -->
+                    <div class="col-lg-6">
+                        <div class="message-display p-4 h-100">
+                            <h3 class="mb-4"><i class="fas fa-inbox"></i> Kotak Pesan</h3>
+                            <div class="messages-list" id="messagesList">
+                                <!-- Pesan akan dimuat di sini -->
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- Music Player -->
-        <section id="music" class="music-section">
-            <h2 class="section-title">Musik Romantis</h2>
-            <p class="section-subtitle">Dengarkan musik untuk menemani hari Valentine Anda</p>
-            <div class="music-player">
-                <div class="music-info">
-                    <h3 id="songTitle">My Heart Will Go On</h3>
-                    <p id="songArtist">Celine Dion</p>
-                </div>
-                <div class="music-controls">
-                    <button class="music-btn" id="prevBtn">
-                        <i class="fas fa-step-backward"></i>
-                    </button>
-                    <button class="music-btn" id="playBtn">
-                        <i class="fas fa-play"></i>
-                    </button>
-                    <button class="music-btn" id="nextBtn">
-                        <i class="fas fa-step-forward"></i>
-                    </button>
-                </div>
-                <div class="progress-container">
-                    <div class="progress-bar" id="progressBar"></div>
-                </div>
-                <div class="volume-control">
-                    <i class="fas fa-volume-up"></i>
-                    <input type="range" id="volumeSlider" min="0" max="100" value="70">
-                </div>
-                <div class="playlist">
-                    <div class="playlist-item active" data-song="My Heart Will Go On" data-artist="Celine Dion">
-                        <i class="fas fa-music"></i>
-                        <span>My Heart Will Go On</span>
-                        <span class="artist">Celine Dion</span>
+        <section id="music" class="py-5">
+            <div class="container">
+                <h2 class="section-title text-center mb-3">Musik Romantis</h2>
+                <p class="section-subtitle text-center mb-5">Dengarkan musik untuk menemani hari Valentine Anda</p>
+                
+                <div class="music-player p-4 p-md-5">
+                    <div class="music-info text-center mb-4">
+                        <h3 id="songTitle" class="h2">My Heart Will Go On</h3>
+                        <p id="songArtist" class="h5 text-muted">Celine Dion</p>
                     </div>
-                    <div class="playlist-item" data-song="Perfect" data-artist="Ed Sheeran">
-                        <i class="fas fa-music"></i>
-                        <span>Perfect</span>
-                        <span class="artist">Ed Sheeran</span>
+                    
+                    <div class="music-controls d-flex justify-content-center align-items-center gap-3 mb-4">
+                        <button class="btn btn-outline-primary rounded-circle p-3" id="prevBtn">
+                            <i class="fas fa-step-backward"></i>
+                        </button>
+                        <button class="btn btn-primary rounded-circle p-4" id="playBtn">
+                            <i class="fas fa-play"></i>
+                        </button>
+                        <button class="btn btn-outline-primary rounded-circle p-3" id="nextBtn">
+                            <i class="fas fa-step-forward"></i>
+                        </button>
                     </div>
-                    <div class="playlist-item" data-song="I Will Always Love You" data-artist="Whitney Houston">
-                        <i class="fas fa-music"></i>
-                        <span>I Will Always Love You</span>
-                        <span class="artist">Whitney Houston</span>
+                    
+                    <div class="progress-container mb-4">
+                        <div class="progress" style="height: 8px;">
+                            <div class="progress-bar" id="progressBar" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="volume-control d-flex align-items-center justify-content-center gap-3 mb-5">
+                        <i class="fas fa-volume-up"></i>
+                        <input type="range" class="form-range w-50" id="volumeSlider" min="0" max="100" value="70">
+                    </div>
+                    
+                    <div class="playlist">
+                        <div class="playlist-item active p-3 mb-2 rounded">
+                            <i class="fas fa-music me-3"></i>
+                            <span>My Heart Will Go On</span>
+                            <span class="artist ms-auto">Celine Dion</span>
+                        </div>
+                        <div class="playlist-item p-3 mb-2 rounded">
+                            <i class="fas fa-music me-3"></i>
+                            <span>Perfect</span>
+                            <span class="artist ms-auto">Ed Sheeran</span>
+                        </div>
+                        <div class="playlist-item p-3 mb-2 rounded">
+                            <i class="fas fa-music me-3"></i>
+                            <span>I Will Always Love You</span>
+                            <span class="artist ms-auto">Whitney Houston</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
     </main>
 
-    <!-- Tambahkan sebelum tag </body> -->
-<div id="browser-compatibility" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); color: white; z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 20px;">
-    <h2 style="color: #e91e63; font-size: 2.5rem; margin-bottom: 20px;">selamat hari Valentine untuk
-        <br>keluarga atau pasangan</h2>
-    <p style="font-size: 1.2rem; max-width: 600px; margin-bottom: 30px;">
-        Website ini memerlukan hati yang tulus dan setia terhadap psangannya dan dukungan keluarga kamu selagi masih bersama. 
-        Pastikan kasih kado atau coklat iya agar diaktifkan dan gunakan website kami sebagai pengalaman terbaik.
-    </p>
-    <button onclick="document.getElementById('browser-compatibility').style.display='none'" 
-            style="background: #e91e63; color: white; border: none; padding: 12px 30px; border-radius: 50px; font-size: 1.1rem; cursor: pointer;">
-        Saya Mengerti
-    </button>
-</div>
-
-<noscript>
-    <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #f8bbd9; color: #880e4f; z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 20px;">
-        <h2 style="font-size: 2.5rem; margin-bottom: 20px;">Selamat datang di website kami</h2>
+    <!-- Browser Compatibility Warning -->
+    <div id="browser-compatibility" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); color: white; z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 20px;">
+        <h2 style="color: #e91e63; font-size: 2.5rem; margin-bottom: 20px;">selamat hari Valentine untuk
+            <br>keluarga atau pasangan</h2>
         <p style="font-size: 1.2rem; max-width: 600px; margin-bottom: 30px;">
-            Website Valentine's Day ini memerlukan hati yang setia dan tulus agar berfungsi dengan baik website ini.
-            Silakan aktifkan di browser Anda untuk menikmati semua fitur.
+            Website ini memerlukan hati yang tulus dan setia terhadap pasangan dan dukungan keluarga kamu selagi masih bersama. 
+            Pastikan kasih kado atau coklat ke pasangan atau keluarga kamu iya dan gunakan website kami sebagai pengalaman terbaik.
         </p>
-        <p style="font-size: 1rem; max-width: 600px;">
-            Happy Valentine's Day! ❤️
-        </p>
+        <button onclick="document.getElementById('browser-compatibility').style.display='none'" 
+                style="background: #e91e63; color: white; border: none; padding: 12px 30px; border-radius: 50px; font-size: 1.1rem; cursor: pointer;">
+            Saya Mengerti
+        </button>
     </div>
-</noscript>
+
+    <noscript>
+        <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #f8bbd9; color: #880e4f; z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 20px;">
+            <h2 style="font-size: 2.5rem; margin-bottom: 20px;">Selamat datang di website kami</h2>
+            <p style="font-size: 1.2rem; max-width: 600px; margin-bottom: 30px;">
+                Website Valentine's Day ini memerlukan hati yang setia dan tulus agar berfungsi dengan baik.
+                Silakan aktifkan JavaScript di browser Anda untuk menikmati semua fitur.
+            </p>
+            <p style="font-size: 1rem; max-width: 600px;">
+                Happy Valentine's Day! ❤️
+            </p>
+        </div>
+    </noscript>
 
     <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-logo">Valentine<span>Day</span></div>
-            <p class="footer-text">Dibuat dengan <i class="fas fa-heart heart-icon"></i> untuk merayakan hari kasih sayang</p>
-            <div class="footer-social">
-                <a href="#"><i class="fab fa-facebook"></i></a>
-                <a href="#"><i class="fab fa-instagram"></i></a>
-                <a href="#"><i class="fab fa-twitter"></i></a>
-                <a href="#"><i class="fab fa-pinterest"></i></a>
+    <footer class="footer py-5">
+        <div class="container">
+            <div class="footer-content text-center">
+                <div class="footer-logo h1 mb-3">Valentine<span>Day</span></div>
+                <p class="footer-text mb-4">Dibuat dengan <i class="fas fa-heart heart-icon"></i> untuk merayakan hari kasih sayang</p>
+                <div class="footer-social d-flex justify-content-center gap-3 mb-4">
+                    <a href="#" class="btn btn-primary rounded-circle p-3"><i class="fab fa-facebook"></i></a>
+                    <a href="#" class="btn btn-primary rounded-circle p-3"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="btn btn-primary rounded-circle p-3"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="btn btn-primary rounded-circle p-3"><i class="fab fa-pinterest"></i></a>
+                </div>
+                <p class="footer-copyright text-muted">© 2026 Valentine's Day Website. All rights reserved.</p>
             </div>
-            <p class="footer-copyright">© 2023 Valentine's Day Website. All rights reserved.</p>
         </div>
     </footer>
 
     <!-- Modal for Love Message -->
-    <div class="modal" id="loveMessageModal">
-        <div class="modal-content">
-            <span class="close-modal">&times;</span>
-            <h2><i class="fas fa-heart"></i> Pesan Cinta Spesial</h2>
-            <p id="randomLoveMessage">Loading pesan cinta...</p>
-            <button class="btn-primary" id="newMessageBtn">Pesan Lainnya</button>
+    <div class="modal fade" id="loveMessageModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fas fa-heart"></i> Pesan Cinta Spesial</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <p id="randomLoveMessage" class="h5">Loading pesan cinta...</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" id="newMessageBtn">Pesan Lainnya</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                </div>
+            </div>
         </div>
     </div>
 
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
     <!-- Scripts -->
     <script src="script.js"></script>
     <script src="countdown.js"></script>

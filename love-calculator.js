@@ -19,7 +19,41 @@ function initLoveCalculator() {
                 calculateLoveCompatibility();
             }
         });
+        
+        // Add input validation
+        input.addEventListener('input', function() {
+            validateNameInput(this);
+        });
     });
+    
+    // Add tooltips
+    addTooltips();
+}
+
+function validateNameInput(input) {
+    const value = input.value.trim();
+    if (value.length < 2) {
+        input.classList.remove('is-valid');
+        input.classList.add('is-invalid');
+    } else {
+        input.classList.remove('is-invalid');
+        input.classList.add('is-valid');
+    }
+}
+
+function addTooltips() {
+    // Add tooltip to calculate button
+    const calculateBtn = document.getElementById('calculateLove');
+    if (calculateBtn) {
+        calculateBtn.title = "Klik untuk menghitung kecocokan cinta Anda!";
+    }
+    
+    // Add tooltip to input fields
+    const name1 = document.getElementById('name1');
+    const name2 = document.getElementById('name2');
+    
+    if (name1) name1.title = "Masukkan nama lengkap Anda";
+    if (name2) name2.title = "Masukkan nama lengkap pasangan Anda";
 }
 
 function calculateLoveCompatibility() {
@@ -29,27 +63,45 @@ function calculateLoveCompatibility() {
     // Validation
     if (!name1 || !name2) {
         showResult(0, "Harap masukkan kedua nama!", "Masukkan nama Anda dan nama pasangan untuk menghitung kecocokan cinta.");
+        showNotification('Harap isi kedua nama terlebih dahulu!', 'error');
+        return;
+    }
+    
+    if (name1.length < 2 || name2.length < 2) {
+        showResult(0, "Nama terlalu pendek!", "Masukkan nama yang valid untuk perhitungan akurat.");
+        showNotification('Nama harus minimal 2 karakter!', 'error');
         return;
     }
     
     if (name1.toLowerCase() === name2.toLowerCase()) {
-        showResult(100, "Cinta Diri Sendiri!", "Kamu mencintai dirimu sendiri - itu hal yang baik! Tapi cobalah mencintai orang lain juga.");
+        showResult(100, "Cinta Diri Sendiri! 💝", "Kamu mencintai dirimu sendiri - itu hal yang baik! Tapi cobalah mencintai orang lain juga. Cinta diri adalah langkah pertama untuk mencintai orang lain.");
+        showNotification('Cinta diri adalah yang terpenting! 💖', 'success');
         return;
     }
     
-    // Calculate love percentage (deterministic but fun)
-    let percentage = calculateLovePercentage(name1, name2);
+    // Show loading state
+    showLoadingState();
     
-    // Get message based on percentage
-    const { message, description } = getLoveMessage(percentage);
-    
-    // Show result with animation
-    showResult(percentage, message, description);
-    
-    // Show notification
-    if (typeof showNotification === 'function') {
-        showNotification(`Kecocokan ${name1} dan ${name2}: ${percentage}% ❤️`, 'success');
-    }
+    // Calculate love percentage with animation delay
+    setTimeout(() => {
+        let percentage = calculateLovePercentage(name1, name2);
+        
+        // Get message based on percentage
+        const { message, description } = getLoveMessage(percentage);
+        
+        // Show result with animation
+        showResult(percentage, message, description);
+        
+        // Show notification
+        if (typeof showNotification === 'function') {
+            showNotification(`Kecocokan ${name1} dan ${name2}: ${percentage}% ❤️`, 'success');
+        }
+        
+        // Create celebration effect
+        if (percentage > 80) {
+            createCelebrationEffect();
+        }
+    }, 1500);
 }
 
 function calculateLovePercentage(name1, name2) {
@@ -58,18 +110,25 @@ function calculateLovePercentage(name1, name2) {
     
     let score = 0;
     
-    // Calculate based on letters in "love"
-    const loveLetters = ['l', 'o', 'v', 'e', 'c', 'i', 'n', 't', 'a'];
+    // Calculate based on letters in love-related words
+    const loveLetters = ['l', 'o', 'v', 'e', 'c', 'i', 'n', 't', 'a', 'h', 'p', 'y', 'r', 's'];
     
     for (let letter of combined) {
         if (loveLetters.includes(letter)) {
-            score += 10;
+            score += 12; // Bonus for love letters
         } else {
             score += 5;
         }
     }
     
-    // Add some randomness but make it deterministic
+    // Calculate vowel and consonant ratio
+    const vowels = combined.match(/[aeiou]/gi);
+    const consonants = combined.match(/[bcdfghjklmnpqrstvwxyz]/gi);
+    
+    if (vowels) score += vowels.length * 3;
+    if (consonants) score += consonants.length * 2;
+    
+    // Add some deterministic "randomness" based on names
     let seed = 0;
     for (let i = 0; i < combined.length; i++) {
         seed += combined.charCodeAt(i);
@@ -77,55 +136,99 @@ function calculateLovePercentage(name1, name2) {
     
     // Use seed for deterministic "randomness"
     const pseudoRandom = (seed * 9301 + 49297) % 233280;
-    const randomPercent = (pseudoRandom / 233280) * 30;
+    const randomPercent = (pseudoRandom / 233280) * 25;
     
-    // Base percentage (40-70%) plus random
-    let percentage = 40 + (score % 30) + randomPercent;
+    // Base percentage (50-75%) plus random
+    let percentage = 50 + (score % 25) + randomPercent;
+    
+    // Bonus for name length compatibility
+    const lengthDiff = Math.abs(name1.length - name2.length);
+    const lengthBonus = Math.max(0, 15 - lengthDiff);
+    percentage += lengthBonus;
+    
+    // Bonus for same first letter
+    if (name1.charAt(0).toLowerCase() === name2.charAt(0).toLowerCase()) {
+        percentage += 5;
+    }
     
     // Ensure it's between 0 and 100
     percentage = Math.min(100, Math.max(0, Math.round(percentage)));
     
-    // Bonus for longer names
-    const nameLengthBonus = Math.min(20, (name1.length + name2.length) * 0.5);
-    percentage += nameLengthBonus;
+    // Make it more likely to be high (for positive vibes!)
+    if (percentage < 40) {
+        percentage += 15;
+    }
     
-    // Final adjustment
-    percentage = Math.min(100, Math.round(percentage));
-    
-    return percentage;
+    return Math.min(100, percentage);
 }
 
 function getLoveMessage(percentage) {
     let message = '';
     let description = '';
+    let emoji = '';
     
-    if (percentage >= 90) {
-        message = "Cinta Sejati! 💖";
-        description = "Kalian adalah pasangan yang sangat cocok! Cinta kalian kuat dan abadi. Pertahankan hubungan yang indah ini!";
+    if (percentage >= 95) {
+        message = "JODOH SEJATI! 💖";
+        description = "Kalian adalah pasangan yang ditakdirkan! Cinta kalian sempurna dan akan bertahan selamanya. Pertahankan hubungan yang indah ini!";
+        emoji = "💖✨";
+    } else if (percentage >= 90) {
+        message = "CINTA ABADI! 💕";
+        description = "Kalian memiliki hubungan yang sangat harmonis dan saling melengkapi. Cinta kalian akan terus tumbuh semakin kuat!";
+        emoji = "💕🌟";
     } else if (percentage >= 80) {
-        message = "Pasangan Ideal! 💕";
-        description = "Kalian memiliki hubungan yang sangat harmonis. Teruslah saling mendukung dan mencintai!";
+        message = "PASANGAN IDEAL! 😍";
+        description = "Chemistry antara kalian sangat kuat! Hubungan kalian penuh dengan gairah, kebahagiaan, dan saling pengertian.";
+        emoji = "😍❤️";
     } else if (percentage >= 70) {
-        message = "Sangat Cocok! 😍";
-        description = "Kalian memiliki chemistry yang kuat. Hubungan kalian penuh dengan gairah dan kebahagiaan!";
+        message = "SANGAT COCOK! 💗";
+        description = "Kalian memiliki potensi untuk hubungan yang luar biasa. Teruslah saling mendukung dan komunikasi dengan baik!";
+        emoji = "💗✨";
     } else if (percentage >= 60) {
-        message = "Cocok! 💗";
-        description = "Kalian memiliki potensi untuk hubungan yang baik. Teruslah belajar memahami satu sama lain!";
+        message = "COCOK BANGET! 💝";
+        description = "Ada ketertarikan yang kuat di antara kalian. Dengan usaha dan pengertian, hubungan bisa menjadi sangat indah!";
+        emoji = "💝💫";
     } else if (percentage >= 50) {
-        message = "Cukup Cocok 💝";
-        description = "Ada ketertarikan di antara kalian, tetapi butuh usaha lebih untuk membangun hubungan yang kuat.";
+        message = "CUKUP COCOK 💞";
+        description = "Kalian memiliki dasar yang baik untuk sebuah hubungan. Butuh lebih banyak waktu untuk saling mengenal dan memahami.";
+        emoji = "💞";
     } else if (percentage >= 40) {
-        message = "Butuh Usaha 💞";
-        description = "Kalian memiliki perbedaan, tetapi dengan komunikasi yang baik, hubungan bisa berkembang.";
+        message = "BUTUH USAHA 💓";
+        description = "Ada potensi di antara kalian, tetapi butuh komitmen dan komunikasi yang baik untuk membangun hubungan.";
+        emoji = "💓";
     } else if (percentage >= 30) {
-        message = "Tantangan 💔";
-        description = "Kalian memiliki banyak perbedaan. Butuh komitmen dan pengertian untuk menjalani hubungan.";
+        message = "TANTANGAN 💔";
+        description = "Kalian memiliki banyak perbedaan. Butuh pengertian dan kesabaran ekstra untuk menjalin hubungan.";
+        emoji = "💔";
     } else {
-        message = "Tidak Cocok 💔";
-        description = "Mungkin kalian lebih baik sebagai teman. Tetapi ingat, cinta bisa tumbuh dari mana saja!";
+        message = "TEMAN SAJA 💔";
+        description = "Mungkin kalian lebih cocok sebagai teman. Tapi ingat, cinta bisa tumbuh dari persahabatan yang tulus!";
+        emoji = "💔🤝";
     }
     
-    return { message, description };
+    return { message: message + " " + emoji, description };
+}
+
+function showLoadingState() {
+    const percentageElement = document.getElementById('lovePercentage');
+    const messageElement = document.getElementById('loveMessage');
+    const descriptionElement = document.getElementById('loveDescription');
+    
+    if (!percentageElement || !messageElement || !descriptionElement) return;
+    
+    // Show loading animation
+    percentageElement.innerHTML = '<div class="loading-dots"><span></span><span></span><span></span></div>';
+    percentageElement.style.fontSize = '2rem';
+    
+    messageElement.textContent = "Menghitung cinta...";
+    messageElement.style.color = "var(--primary-color)";
+    
+    descriptionElement.textContent = "Sedang menganalisis kecocokan antara kalian...";
+    
+    // Add pulse animation to button
+    const calculateBtn = document.getElementById('calculateLove');
+    calculateBtn.classList.add('success-animation');
+    calculateBtn.innerHTML = '<i class="fas fa-heartbeat"></i> Menghitung...';
+    calculateBtn.disabled = true;
 }
 
 function showResult(percentage, message, description) {
@@ -133,17 +236,41 @@ function showResult(percentage, message, description) {
     const messageElement = document.getElementById('loveMessage');
     const descriptionElement = document.getElementById('loveDescription');
     const resultContainer = document.querySelector('.result-container');
+    const calculateBtn = document.getElementById('calculateLove');
     
     if (!percentageElement || !messageElement || !descriptionElement) return;
+    
+    // Reset button state
+    if (calculateBtn) {
+        calculateBtn.classList.remove('success-animation');
+        calculateBtn.innerHTML = '<i class="fas fa-heartbeat"></i> Hitung Ulang';
+        calculateBtn.disabled = false;
+    }
     
     // Animate percentage counter
     animatePercentage(percentageElement, 0, percentage);
     
-    // Set message and description
-    messageElement.textContent = message;
-    descriptionElement.textContent = description;
+    // Set message and description with animation
+    setTimeout(() => {
+        messageElement.textContent = message;
+        descriptionElement.textContent = description;
+        
+        // Add color based on percentage
+        if (percentage >= 80) {
+            messageElement.style.color = "#4CAF50";
+        } else if (percentage >= 60) {
+            messageElement.style.color = "#FF9800";
+        } else if (percentage >= 40) {
+            messageElement.style.color = "#FFC107";
+        } else {
+            messageElement.style.color = "#F44336";
+        }
+        
+        // Add hearts animation
+        addHeartsAnimation();
+    }, 1500);
     
-    // Add visual feedback
+    // Add visual feedback to result container
     resultContainer.style.animation = 'none';
     setTimeout(() => {
         resultContainer.style.animation = 'pulse 1s';
@@ -177,17 +304,23 @@ function animatePercentage(element, start, end, duration = 1500) {
         const currentValue = Math.round(start + (end - start) * easeOutQuart);
         
         element.textContent = currentValue + '%';
+        element.style.fontSize = '5rem';
         
         // Change color based on percentage
-        if (currentValue >= 80) {
-            element.style.color = '#4CAF50'; // Green
-        } else if (currentValue >= 60) {
-            element.style.color = '#FF9800'; // Orange
-        } else if (currentValue >= 40) {
-            element.style.color = '#FFC107'; // Yellow
+        if (currentValue >= 90) {
+            element.style.background = "linear-gradient(135deg, #4CAF50, #8BC34A)";
+        } else if (currentValue >= 80) {
+            element.style.background = "linear-gradient(135deg, #FF9800, #FFC107)";
+        } else if (currentValue >= 70) {
+            element.style.background = "linear-gradient(135deg, #FF5722, #FF9800)";
+        } else if (currentValue >= 50) {
+            element.style.background = "linear-gradient(135deg, #E91E63, #9C27B0)";
         } else {
-            element.style.color = '#F44336'; // Red
+            element.style.background = "linear-gradient(135deg, #F44336, #FF5722)";
         }
+        
+        element.style.webkitBackgroundClip = "text";
+        element.style.webkitTextFillColor = "transparent";
         
         if (now < endTime) {
             requestAnimationFrame(update);
@@ -198,3 +331,80 @@ function animatePercentage(element, start, end, duration = 1500) {
     
     requestAnimationFrame(update);
 }
+
+function addHeartsAnimation() {
+    const heartsContainer = document.querySelector('.hearts-animation');
+    if (!heartsContainer) return;
+    
+    heartsContainer.innerHTML = '';
+    
+    for (let i = 0; i < 5; i++) {
+        const heart = document.createElement('span');
+        heart.innerHTML = '❤️';
+        heartsContainer.appendChild(heart);
+    }
+}
+
+function createCelebrationEffect() {
+    // Create heart explosion
+    for (let i = 0; i < 20; i++) {
+        setTimeout(() => {
+            const heart = document.createElement('div');
+            heart.innerHTML = '❤️';
+            heart.style.cssText = `
+                position: fixed;
+                font-size: ${Math.random() * 25 + 15}px;
+                left: ${Math.random() * 100}%;
+                top: ${Math.random() * 100}%;
+                opacity: 0.9;
+                z-index: 9999;
+                pointer-events: none;
+                animation: celebrateHeart 2s ease-out forwards;
+            `;
+            
+            document.body.appendChild(heart);
+            
+            // Remove after animation
+            setTimeout(() => {
+                if (heart.parentNode) {
+                    document.body.removeChild(heart);
+                }
+            }, 2000);
+        }, i * 100);
+    }
+    
+    // Add celebration sound
+    try {
+        const audio = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-happy-crowd-laugh-464.mp3');
+        audio.volume = 0.2;
+        audio.play().catch(e => console.log("Audio play failed:", e));
+    } catch (e) {
+        console.log("Audio not available");
+    }
+    
+    // Add CSS animation if not already added
+    if (!document.querySelector('#celebrate-heart-styles')) {
+        const style = document.createElement('style');
+        style.id = 'celebrate-heart-styles';
+        style.textContent = `
+            @keyframes celebrateHeart {
+                0% {
+                    transform: translateY(0) rotate(0deg) scale(0);
+                    opacity: 1;
+                }
+                50% {
+                    transform: translateY(-100px) rotate(180deg) scale(1);
+                    opacity: 0.8;
+                }
+                100% {
+                    transform: translateY(-200px) rotate(360deg) scale(0);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    }
+}
+
+// Make functions available globally
+window.calculateLoveCompatibility = calculateLoveCompatibility;
